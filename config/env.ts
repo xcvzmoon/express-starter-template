@@ -58,7 +58,20 @@ const envSchema = z.object({
 
 export type Env = z.infer<typeof envSchema>;
 
-const result = envSchema.safeParse(process.env);
+// Docker --env-file does not strip quotes, so we strip them here
+const cleanedEnv = Object.fromEntries(
+  Object.entries(process.env).map(([key, value]) => {
+    if (typeof value === 'string' && value.startsWith('"') && value.endsWith('"')) {
+      return [key, value.slice(1, -1)];
+    }
+    if (typeof value === 'string' && value.startsWith("'") && value.endsWith("'")) {
+      return [key, value.slice(1, -1)];
+    }
+    return [key, value];
+  })
+);
+
+const result = envSchema.safeParse(cleanedEnv);
 
 if (!result.success) {
   const formattedErrors = z.flattenError(result.error).fieldErrors;
