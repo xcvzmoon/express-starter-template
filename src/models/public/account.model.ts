@@ -19,7 +19,7 @@ class Account extends Model<Account, Partial<Account>> {
         type: DataType.INTEGER,
         autoIncrement: true,
     })
-    declare id: string;
+    declare id: number;
 
     @Column({
         type: DataType.STRING,
@@ -78,8 +78,7 @@ class Account extends Model<Account, Partial<Account>> {
     }
 
     public override toJSON(): object {
-        const data = super.toJSON() as Partial<Account>;
-        delete data.password;
+        const { password, ...data } = super.toJSON() as Account;
         return data;
     }
 }

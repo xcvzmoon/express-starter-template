@@ -8,7 +8,8 @@ export const localStrategy = new LocalStrategy(
     },
     async (email, password, done) => {
         try {
-            const account = await Account.findOne({ where: { email } });
+            const normalizedEmail = email.toLowerCase().trim();
+            const account = await Account.findOne({ where: { email: normalizedEmail } });
 
             if (!account) {
                 return done(null, false, { message: 'Invalid email or password' });
