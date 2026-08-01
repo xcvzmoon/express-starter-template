@@ -3,6 +3,8 @@ import { testDatabaseConnection } from './database';
 import { initializePassport } from '../strategies';
 import { testTransporter } from './nodemailer';
 import rateLimit from 'express-rate-limit';
+import initializeSocket from './socket';
+import type { Server } from 'node:http';
 import routes from '../routes/routes';
 import compression from 'compression';
 import { env } from '@config/env';
@@ -11,7 +13,7 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 import cors from 'cors';
 
-async function createServer(): Promise<Express> {
+async function createServer(): Promise<Server> {
     const nodeEnv = env.NODE_ENV;
     console.info(`${nodeEnv} environment`.toUpperCase());
 
@@ -84,7 +86,9 @@ async function createServer(): Promise<Express> {
         });
     });
 
-    return app;
+    const server = await initializeSocket(app);
+
+    return server;
 }
 
 export default createServer;
