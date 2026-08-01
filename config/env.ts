@@ -33,6 +33,27 @@ const envSchema = z.object({
     .default('1d')
     .transform((val) => val as import('jsonwebtoken').SignOptions['expiresIn'])
     .describe('The expiration time for JWT tokens'),
+
+  SMTP_HOST: z.string()
+    .optional()
+    .default('smtp.gmail.com')
+    .describe('The SMTP host'),
+
+  SMTP_PORT: z.coerce
+    .number()
+    .optional()
+    .default(587)
+    .describe('The SMTP port'),
+
+  SMTP_USERNAME: z.string()
+    .optional()
+    .default('')
+    .describe('The SMTP username'),
+
+  SMTP_PASSWORD: z.string()
+    .optional()
+    .default('')
+    .describe('The SMTP password'),
 });
 
 export type Env = z.infer<typeof envSchema>;

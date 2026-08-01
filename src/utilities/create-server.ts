@@ -1,6 +1,7 @@
 import express, { type Express, type Request, type Response, type NextFunction } from 'express';
 import { testDatabaseConnection } from './database';
 import { initializePassport } from '../strategies';
+import { testTransporter } from './nodemailer';
 import rateLimit from 'express-rate-limit';
 import routes from '../routes/routes';
 import compression from 'compression';
@@ -58,7 +59,8 @@ async function createServer(): Promise<Express> {
     routes(app);
 
     await Promise.all([
-        testDatabaseConnection()
+        testDatabaseConnection(),
+        testTransporter()
     ])
 
     // 404 Catch-all handler
