@@ -1,3 +1,4 @@
+import { env } from '@config/env';
 import bcryptjs from 'bcryptjs';
 import {
     Table,
@@ -5,6 +6,8 @@ import {
     DataType,
     Index,
     Model,
+    BeforeUpdate,
+    BeforeCreate,
 } from 'sequelize-typescript';
 
 @Table({
@@ -56,7 +59,21 @@ class Account extends Model<Account, Partial<Account>> {
     })
     declare role: string;
 
-    async compare_password(password: string): Promise<boolean> {
+    @BeforeUpdate
+    @BeforeCreate
+    static async hashPassword(instance: Account) {
+        if (instance.changed('password')) {
+            if (!instance.password.startsWith('$2')) {
+                const saltWorkFactor: number = env.SALT_WORK_FACTOR;
+                const salt = await bcryptjs.genSalt(saltWorkFactor);
+                instance.password = await bcryptjs.hash(instance.password, salt);
+            }
+        }
+
+        if (instance.changed('email')) instance.email = instance.email.toLowerCase().trim();
+    }
+
+    async comparePassword(password: string): Promise<boolean> {
         return await bcryptjs.compare(password, this.password);
     }
 }

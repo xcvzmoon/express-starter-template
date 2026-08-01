@@ -1,10 +1,10 @@
 import { Sequelize } from 'sequelize-typescript';
-import { env } from '../../config/env';
+import { env } from '@config/env';
 
 const database_url: string = env.DATABASE_URL;
 const model_path = `/../models/**/*.model.${env.NODE_ENV === 'production' ? 'js' : 'ts'}`;
 
-let dialectOptions: Record<string, unknown> = {};
+const dialectOptions: Record<string, unknown> = {};
 
 if (env.DATABASE_USE_SSL) {
     dialectOptions.ssl = {

@@ -1,5 +1,5 @@
-import { env } from './config/env';
 import createServer from './src/utilities/create-server';
+import { env } from '@config/env';
 
 const PORT = env.PORT;
 

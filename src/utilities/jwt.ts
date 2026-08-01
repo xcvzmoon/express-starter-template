@@ -1,5 +1,5 @@
+import { env } from '@config/env';
 import jwt from 'jsonwebtoken';
-import { env } from '../../config/env';
 
 export function sign_jwt(
     object: object,
@@ -9,6 +9,7 @@ export function sign_jwt(
 
     return jwt.sign({ ...object, iat: Math.floor(Date.now() / 1000) }, private_key, {
         ...(options && options),
+        expiresIn: env.JWT_EXPIRES_IN,
         algorithm: 'RS256',
     });
 }

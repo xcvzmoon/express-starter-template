@@ -22,6 +22,17 @@ const envSchema = z.object({
   DATABASE_URL: z.url().describe('Database connection URL'),
 
   DATABASE_USE_SSL: z.enum(["true", "false"]).default("false").transform((val) => val === "true").describe('Use SSL for database connection'),
+
+  SALT_WORK_FACTOR: z.coerce
+    .number()
+    .optional()
+    .default(10)
+    .describe('The salt work factor for hashing passwords'),
+
+  JWT_EXPIRES_IN: z.string()
+    .default('1d')
+    .transform((val) => val as import('jsonwebtoken').SignOptions['expiresIn'])
+    .describe('The expiration time for JWT tokens'),
 });
 
 export type Env = z.infer<typeof envSchema>;

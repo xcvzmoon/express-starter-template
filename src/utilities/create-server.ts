@@ -1,12 +1,14 @@
-import cors from 'cors';
-import helmet from 'helmet';
-import morgan from 'morgan';
-import compression from 'compression';
-import rateLimit from 'express-rate-limit';
 import express, { type Express, type Request, type Response, type NextFunction } from 'express';
-import { env } from '../../config/env';
-import routes from '../routes/routes';
 import { testDatabaseConnection } from './database';
+import { initializePassport } from '../strategies';
+import rateLimit from 'express-rate-limit';
+import routes from '../routes/routes';
+import compression from 'compression';
+import { env } from '@config/env';
+import passport from 'passport';
+import morgan from 'morgan';
+import helmet from 'helmet';
+import cors from 'cors';
 
 async function createServer(): Promise<Express> {
     const nodeEnv = env.NODE_ENV;
@@ -30,8 +32,8 @@ async function createServer(): Promise<Express> {
 
     // Rate limiting — protect against brute-force and abuse
     app.use(rateLimit({
-        windowMs: 15 * 60 * 1000, // 15 minutes
-        limit: 100,               // Limit each IP to 100 requests per window
+        windowMs: 10 * 60 * 1000, // 10 minutes
+        limit: 200,               // Limit each IP to 200 requests per window
         standardHeaders: 'draft-8',
         legacyHeaders: false,
         message: {
@@ -47,6 +49,10 @@ async function createServer(): Promise<Express> {
     // Compression & logging
     app.use(compression());
     app.use(morgan(env.NODE_ENV === 'production' ? 'combined' : 'dev'));
+
+    // Initialize Passport
+    initializePassport();
+    app.use(passport.initialize());
 
     // Initialize routes
     routes(app);

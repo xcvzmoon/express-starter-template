@@ -6,7 +6,7 @@ function routes(app: Express) {
     // Root route
     app.get('/', (_req: Request, res: Response) => {
         res.status(200).json({
-            app: 'Express Starter Template',
+            app: 'Express + TypeScript Starter Template',
             version: package_json.version || '0.0.1',
         });
     });
