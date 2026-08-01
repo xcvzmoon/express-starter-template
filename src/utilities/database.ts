@@ -21,6 +21,9 @@ const sequelize: Sequelize = new Sequelize(database_url, {
         timestamps: true,
         paranoid: true,
         underscored: true,
+        createdAt: 'created_at',
+        updatedAt: 'updated_at',
+        deletedAt: 'deleted_at',
     },
 });
 

@@ -29,6 +29,7 @@ export interface SendTemplateEmailOptions {
     to: string | string[];
     subject: string;
     templateName: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     context: Record<string, any>;
     from?: string;
 }

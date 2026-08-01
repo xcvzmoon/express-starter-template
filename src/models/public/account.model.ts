@@ -76,6 +76,12 @@ class Account extends Model<Account, Partial<Account>> {
     async comparePassword(password: string): Promise<boolean> {
         return await bcryptjs.compare(password, this.password);
     }
+
+    public override toJSON(): object {
+        const data = super.toJSON() as Partial<Account>;
+        delete data.password;
+        return data;
+    }
 }
 
 export default Account;
