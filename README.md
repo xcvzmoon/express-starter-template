@@ -6,7 +6,7 @@ A production-ready, highly-opinionated Express.js template built with TypeScript
 
 - **Runtime & Build**: [Bun](https://bun.com) for ultra-fast dependency installation, execution, and bundling.
 - **Framework**: Express.js with full TypeScript support.
-- **Database**: PostgreSQL with [Sequelize](https://sequelize.org/) ORM and `sequelize-typescript` decorators. Auto-syncs models on startup.
+- **Database**: PostgreSQL with [Sequelize](https://sequelize.org/) ORM and `sequelize-typescript` decorators.
 - **Authentication**: Pre-configured [Passport.js](https://www.passportjs.org/) with Local and JWT strategies.
 - **Validation**: Strict runtime schema and environment variable validation using [Zod](https://zod.dev/).
 - **Security**: Pre-configured with Helmet (security headers), CORS, and Express Rate Limit.
@@ -119,12 +119,9 @@ docker run -p 5001:5001 --env-file .env express-starter
 
 ## 🗄 Database Setup & Migrations
 
-The project uses **Sequelize ORM**. Upon application startup (defined in `src/utilities/database.ts`), Sequelize automatically synchronizes the models with the database using:
-```typescript
-sequelize.sync({ alter: true })
-```
+The project uses **Sequelize ORM** for database interactions. 
 
-> **Warning**: While `alter: true` is convenient for development, it is generally recommended to use explicit migration files (via Sequelize CLI) in production to prevent unintended data loss or schema conflicts.
+> **Note**: Database schema synchronisation (`sequelize.sync()`) has been removed from application startup for production safety. You should use explicit migration files (via Sequelize CLI) to manage schema changes and prevent unintended data loss or schema conflicts.
 
 ## 🔒 Authentication & Authorization
 
