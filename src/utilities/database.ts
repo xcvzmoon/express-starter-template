@@ -36,6 +36,4 @@ export async function testDatabaseConnection(): Promise<void> {
     }
 }
 
-sequelize.sync({ alter: true })
-
 export default sequelize;

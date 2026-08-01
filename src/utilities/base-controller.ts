@@ -5,6 +5,14 @@ import { type IncludeOptions, literal, Model, type ModelStatic, Op, type WhereOp
 
 type WhereWithOr = WhereOptions & { [K in typeof Op.or]?: WhereOptions[] };
 
+/**
+ * Creates a new record in the database for the given model.
+ * Expects the `req.body` to contain the fields for the new record.
+ * Uses a transaction to ensure data integrity.
+ *
+ * @param model - The Sequelize model representing the database table.
+ * @returns An Express middleware function that handles the creation request.
+ */
 export const create =
     (model: ModelStatic<Model>) =>
     async (req: Request, res: Response): Promise<void> => {
@@ -22,6 +30,15 @@ export const create =
         }
     };
 
+/**
+ * Updates an existing record in the database.
+ * Identifies the record using the primary key derived from the request (e.g., `req.params.id`).
+ * Expects the `req.body` to contain the updated fields.
+ * Uses a transaction to ensure data integrity.
+ *
+ * @param model - The Sequelize model representing the database table.
+ * @returns An Express middleware function that handles the update request.
+ */
 export const update =
     (model: ModelStatic<Model>) =>
     async (req: Request, res: Response): Promise<void> => {
@@ -46,6 +63,14 @@ export const update =
         }
     };
 
+/**
+ * Retrieves a single record from the database based on its primary key.
+ * Identifies the record using the primary key derived from the request.
+ * Supports eager loading of associated models via the `includes` query parameter.
+ *
+ * @param model - The Sequelize model representing the database table.
+ * @returns An Express middleware function that handles the read-one request.
+ */
 export const readOne =
     (model: ModelStatic<Model>) =>
     async (req: Request, res: Response): Promise<void> => {
@@ -74,6 +99,25 @@ export const readOne =
         }
     };
 
+/**
+ * Retrieves a list of records from the database with advanced querying capabilities.
+ * 
+ * Query Parameters:
+ * - `page` (number): The page number for pagination (default: 1).
+ * - `limit` (number): The number of records per page (default: 10).
+ * - `paginate` (boolean): Whether to enable pagination (default: true).
+ * - `searchKeyword` (string): The keyword to search for across specified columns.
+ * - `searchColumns` (string): A comma-separated list of columns to search within (required if `searchKeyword` is provided).
+ * - `includes` (string): A comma-separated list of associated models to eager-load (e.g., `includes=Profile,Posts`).
+ * - `fields` (string): A comma-separated list of specific attributes/columns to retrieve.
+ * - `sortBy` (string): The column to sort the results by (default: 'created_at').
+ * - `sortOrder` (string): The order of sorting ('ASC' or 'DESC', default: 'DESC').
+ * - `random` (boolean): Whether to fetch records in random order (default: false, overrides `sortBy`).
+ * - `...rawFilters`: Any other query parameters are treated as exact match filters (e.g., `?status=active`).
+ *
+ * @param model - The Sequelize model representing the database table.
+ * @returns An Express middleware function that handles the read-all request.
+ */
 export const readAll =
     (model: ModelStatic<Model>) =>
     async (req: Request, res: Response): Promise<void> => {
@@ -155,6 +199,13 @@ export const readAll =
         }
     };
 
+/**
+ * Deletes a single record from the database based on its primary key.
+ * Identifies the record using the primary key derived from the request.
+ *
+ * @param model - The Sequelize model representing the database table.
+ * @returns An Express middleware function that handles the delete request.
+ */
 export const destroy =
     (model: ModelStatic<Model>) =>
     async (req: Request, res: Response): Promise<void> => {
