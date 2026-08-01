@@ -1,0 +1,38 @@
+import { Sequelize } from 'sequelize-typescript';
+import { env } from '../../config/env';
+
+const database_url: string = env.DATABASE_URL;
+const model_path = `/../models/**/*.model.${env.NODE_ENV === 'production' ? 'js' : 'ts'}`;
+
+let dialectOptions: Record<string, unknown> = {};
+
+if (env.DATABASE_USE_SSL) {
+    dialectOptions.ssl = {
+        require: true,
+        rejectUnauthorized: false
+    }
+}
+
+const sequelize: Sequelize = new Sequelize(database_url, {
+    logging: false,
+    models: [__dirname + model_path],
+    dialectOptions,
+    define: {
+        timestamps: true,
+        paranoid: true,
+        underscored: true,
+    },
+});
+
+export async function testDatabaseConnection(): Promise<void> {
+    try {
+        await sequelize.authenticate();
+        console.info(`Database Connection: ${database_url}`);
+    } catch (error: unknown) {
+        console.error('Unable to connect to the database', error);
+    }
+}
+
+sequelize.sync({ alter: true })
+
+export default sequelize;
