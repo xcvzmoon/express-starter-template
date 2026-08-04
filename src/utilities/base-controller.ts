@@ -158,9 +158,8 @@ export const readAll =
                 }
                 const kw = String(searchKeyword);
 
-                // Build OR conditions across provided columns
                 const orConditions: WhereOptions[] = cols.map((column) =>
-                    Number.isFinite(Number(kw)) ? { [column]: kw } : { [column]: { [Op.iLike]: `%${kw}%` } },
+                    sequelize.where(sequelize.cast(sequelize.col(column), 'varchar'), { [Op.iLike]: `%${kw}%` })
                 );
 
                 // Assign with symbol key safely
@@ -168,7 +167,20 @@ export const readAll =
             }
 
             // Includes + field selection
-            const include = buildIncludes(model, includes);
+            const includeArr = csv(includes);
+            if (String(searchKeyword).length > 0) {
+                const cols = csv(searchColumns);
+                cols.forEach((col) => {
+                    if (col.includes('.')) {
+                        const relation = col.substring(0, col.lastIndexOf('.'));
+                        if (!includeArr.includes(relation)) {
+                            includeArr.push(relation);
+                        }
+                    }
+                });
+            }
+
+            const include = buildIncludes(model, includeArr.join(','));
             const attributes = csv(fields);
             const hasAttributes = attributes.length > 0;
 
