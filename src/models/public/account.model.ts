@@ -78,6 +78,7 @@ class Account extends Model<Account, Partial<Account>> {
     }
 
     public override toJSON(): object {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password, ...data } = super.toJSON() as Account;
         return data;
     }
