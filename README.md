@@ -83,6 +83,17 @@ docker build -t express-starter-template .
 docker run -p 5001:5001 --env-file .env express-starter-template
 ```
 
+## Vercel Deployment
+
+This project is configured and ready for deployment on [Vercel](https://vercel.com). The `vercel.json` configuration and the `api/index.ts` entry point are set up to deploy the Express application as Vercel Serverless Functions.
+
+To deploy locally using the Vercel CLI:
+1. Install the Vercel CLI: `npm i -g vercel` (or use `bun install -g vercel`)
+2. Run `vercel` in the root directory to log in and create a preview deployment.
+3. For production deployment, run `vercel --prod`.
+
+*Note: Remember to configure your environment variables (like `DATABASE_URL`, `JWT_SECRET`, etc.) in the Vercel project settings dashboard before deploying.*
+
 ## Linting
 
 To run the ESLint checks:
