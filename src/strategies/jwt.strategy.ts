@@ -1,6 +1,6 @@
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import Account from '../models/public/account.model';
-import { env } from '@config/env';
+import { env } from '../../config/env';
 
 const public_key = Buffer.from(env.PUBLIC_ACCESS_KEY, 'base64').toString('ascii');
 

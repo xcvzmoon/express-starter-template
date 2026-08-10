@@ -1,6 +1,6 @@
 import { Router, type RequestHandler } from 'express';
 import { Model, type ModelStatic } from 'sequelize';
-import { create, readAll, readOne, update, destroy } from '@/utilities/base-controller';
+import { create, readAll, readOne, update, destroy } from './base-controller';
 
 /**
  * Supported CRUD route keys for this base router.

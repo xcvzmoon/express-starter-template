@@ -1,6 +1,6 @@
 import { authController } from '../../controllers/auth.controller';
-import validateResource from '@/middlewares/validate-resource';
-import { createAccountSchema, localAuthSchema } from '@/schemas/auth.schema';
+import validateResource from '../../middlewares/validate-resource';
+import { createAccountSchema, localAuthSchema } from '../../schemas/auth.schema';
 import { Router } from 'express';
 import passport from 'passport';
 

@@ -1,6 +1,6 @@
 import sequelize from './database';
 import type { Request, Response } from 'express';
-import { boolFromStr, buildIncludes, csv, normSortOrder, num, getPrimaryKeyWhere } from '@/utilities/helpers';
+import { boolFromStr, buildIncludes, csv, normSortOrder, num, getPrimaryKeyWhere } from './helpers';
 import { type IncludeOptions, literal, Model, type ModelStatic, Op, type WhereOptions, type OrderItem } from 'sequelize';
 
 type WhereWithOr = WhereOptions & { [K in typeof Op.or]?: WhereOptions[] };

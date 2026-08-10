@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize-typescript';
-import { env } from '@config/env';
-import Account from '@/models/public/account.model';
+import { env } from '../../config/env';
+import Account from '../models/public/account.model';
 
 const database_url: string = env.DATABASE_URL;
 // Vercel doesn't support dynamic model path so we import models manually
