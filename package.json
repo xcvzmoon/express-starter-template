@@ -9,7 +9,11 @@
     "dev": "srvx serve --entry ./index.ts",
     "build": "tsdown index.ts --format esm --out-dir dist",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "docker:build": "docker build -t express-starter-template .",
+    "docker:run": "docker run -d --rm -p 5001:5001 --env-file .env --name express-starter-template express-starter-template",
+    "docker:stop": "docker stop express-starter-template",
+    "docker:logs": "docker logs -f express-starter-template"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
