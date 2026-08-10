@@ -1,4 +1,5 @@
 import { Sequelize } from 'sequelize-typescript';
+import pg from 'pg';
 import { env } from '../../config/env';
 import Account from '../models/public/account.model';
 
@@ -18,6 +19,7 @@ if (env.DATABASE_USE_SSL) {
 const sequelize: Sequelize = new Sequelize(database_url, {
     logging: false,
     models: [Account],
+    dialectModule: pg,
     dialectOptions,
     define: {
         timestamps: true,
