@@ -1,5 +1,5 @@
 import { type Request, type Response } from 'express';
-import { sendTemplateEmail } from '@/utilities/nodemailer';
+import { sendTemplateEmail } from '../utilities/nodemailer';
 
 export const sendTestEmail = async (req: Request, res: Response): Promise<void> => {
     try {

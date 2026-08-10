@@ -5,7 +5,7 @@ import { testTransporter } from './nodemailer';
 import rateLimit from 'express-rate-limit';
 import routes from '../routes/routes';
 import compression from 'compression';
-import { env } from '@config/env';
+import { env } from '../../config/env';
 import passport from 'passport';
 import morgan from 'morgan';
 import helmet from 'helmet';

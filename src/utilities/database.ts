@@ -1,6 +1,7 @@
 import { Sequelize } from 'sequelize-typescript';
-import { env } from '@config/env';
-import Account from '@/models/public/account.model';
+import pg from 'pg';
+import { env } from '../../config/env';
+import Account from '../models/public/account.model';
 
 const database_url: string = env.DATABASE_URL;
 // Vercel doesn't support dynamic model path so we import models manually
@@ -18,6 +19,7 @@ if (env.DATABASE_USE_SSL) {
 const sequelize: Sequelize = new Sequelize(database_url, {
     logging: false,
     models: [Account],
+    dialectModule: pg,
     dialectOptions,
     define: {
         timestamps: true,

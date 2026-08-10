@@ -74,7 +74,6 @@ Builds the TypeScript code into the `dist/` directory and runs it.
 bun run build
 bun run start
 ```
-*(Alternatively, run `bun run index.ts` directly as previously supported.)*
 
 **Using Docker:**
 You can build and run the application using the included multi-stage Dockerfile.

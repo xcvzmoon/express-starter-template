@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import { env } from '@config/env';
+import { env } from '../../config/env';
 import fs from 'fs/promises';
 import path from 'path';
 import handlebars from 'handlebars';
